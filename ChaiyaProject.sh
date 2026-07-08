@@ -5447,7 +5447,7 @@ menu_15() {
 # ══════════════════════════════════════════════════════════════
 menu_16() {
   clear
-  local REPO_URL="https://raw.githubusercontent.com/Chaiyakey99/chaiya-vpn/main/ChaiyaProject.sh"
+  local REPO_URL="https://raw.githubusercontent.com/benzvpn/stpvpn/refs/heads/main/chaiya-setup-v10.sh"
   local INSTALL_CMD="bash <(curl -Ls \"${REPO_URL}\")"
 
   printf "${MG}╔══════════════════════════════════════════════════════╗${RS}\n"
