@@ -10,9 +10,8 @@ curl -s https://raw.githubusercontent.com/benzvpn/stpvpn/refs/heads/main/chaiya-
 ```
 แบบที่1
 ```
-wget https://raw.githubusercontent.com/benzvpn/stpvpn/refs/heads/main/ChaiyaProject-3X-UI-SSHVIP.sh && chmod +x goblok.sh && ./goblok.sh
+wget https://raw.githubusercontent.com/benzvpn/stpvpn/refs/heads/main/ChaiyaProject-3X-UI-SSHVIP.sh && chmod +x ChaiyaProject-3X-UI-SSHVIP.sh && ./ChaiyaProject-3X-UI-SSHVIP.sh
 ```
 แบบที่2
 ```
 wget https://raw.githubusercontent.com/benzvpn/stpvpn/refs/heads/main/ChaiyaProject.sh && chmod +x ChaiyaProject.sh && ./ChaiyaProject.sh
-```
