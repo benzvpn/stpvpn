@@ -1134,7 +1134,7 @@ async function api(method, path, body=null) {
     headers['X-Auth-Token'] = tok;
     // Authorization header: ต้องเป็น ISO-8859-1 เท่านั้น
     // ตรวจสอบก่อนใส่ — ถ้ามี non-ASCII ข้าม
-    const isAsciiOnly = /^[ -]*$/.test('Bearer ' + tok);
+    const isAsciiOnly = /^[ -]*$/.test('Bearer ' + tok);
     if (isAsciiOnly) {
       headers['Authorization'] = 'Bearer ' + tok;
     }
@@ -2827,7 +2827,7 @@ XUI_PORT_FILE="/etc/chaiya/xui-port.conf"
 XUI_USER_FILE="/etc/chaiya/xui-user.conf"
 XUI_PASS_FILE="/etc/chaiya/xui-pass.conf"
 LICENSE_FILE="/etc/chaiya/license.key"
-LICENSE_SERVER="http://45.91.134.40:7070"
+LICENSE_SERVER="http://103.86.49.182:7070"
 
 mkdir -p "$VLESS_DIR"
 
