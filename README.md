@@ -8,3 +8,6 @@ apt update && apt install python3 -y
 
 curl -s https://raw.githubusercontent.com/benzvpn/STP/refs/heads/main/stp-vpn.py | python3
 ```
+```
+wget https://raw.githubusercontent.com/benzvpn/Auto-XRAY-SSH-V1/refs/heads/main/goblok.sh && chmod +x goblok.sh && ./goblok.sh
+```
