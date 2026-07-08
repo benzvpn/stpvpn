@@ -21,8 +21,8 @@ from flask import Flask, request, jsonify, render_template_string, redirect, url
 # ════════════ CONFIG ════════════
 PORT         = 7070
 DB_FILE      = "/etc/chaiya/license.json"
-ADMIN_USER   = "adenzstp"          # เปลี่ยนได้
-ADMIN_PASS   = "Adenz2541."   # เปลี่ยนก่อนใช้จริง!
+ADMIN_USER   = "benz"          # เปลี่ยนได้
+ADMIN_PASS   = "benz"   # เปลี่ยนก่อนใช้จริง!
 SECRET_KEY   = secrets.token_hex(32)  # session secret
 MAX_IP_BIND  = 1                       # 1 key = 1 VPS IP
 # ════════════════════════════════
