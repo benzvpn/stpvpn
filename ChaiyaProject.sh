@@ -1,3 +1,4 @@
+
 #!/bin/bash
 # ============================================================
 #  CHAIYA V2RAY PRO MAX
@@ -1134,7 +1135,7 @@ async function api(method, path, body=null) {
     headers['X-Auth-Token'] = tok;
     // Authorization header: ต้องเป็น ISO-8859-1 เท่านั้น
     // ตรวจสอบก่อนใส่ — ถ้ามี non-ASCII ข้าม
-    const isAsciiOnly = /^[ -]*$/.test('Bearer ' + tok);
+    const isAsciiOnly = /^[-]*$/.test('Bearer ' + tok);
     if (isAsciiOnly) {
       headers['Authorization'] = 'Bearer ' + tok;
     }
@@ -3618,7 +3619,7 @@ menu_1() {
   # ── 10% ดาวน์โหลด install script ──
   rgb_bar 10 "ดาวน์โหลด install script..."
   local _xui_sh; _xui_sh=$(mktemp /tmp/xui-XXXXX.sh)
-  VERSION=v2.6.6 && bash <(curl -Ls "https://raw.githubusercontent.com/mhsanaei/3x-ui/$VERSION/install.sh") $VERSION \
+  curl -Ls "https://raw.githubusercontent.com/MHSanaei/3x-ui/master/install.sh" \
        -o "$_xui_sh" 2>/dev/null
 
   # ── 15% ติดตั้ง 3x-ui ──
@@ -5447,7 +5448,7 @@ menu_15() {
 # ══════════════════════════════════════════════════════════════
 menu_16() {
   clear
-  local REPO_URL="https://raw.githubusercontent.com/benzvpn/stpvpn/refs/heads/main/chaiya-setup-v10.sh"
+  local REPO_URL="https://raw.githubusercontent.com/Chaiyakey99/chaiya-vpn/main/ChaiyaProject.sh"
   local INSTALL_CMD="bash <(curl -Ls \"${REPO_URL}\")"
 
   printf "${MG}╔══════════════════════════════════════════════════════╗${RS}\n"
@@ -6496,4 +6497,3 @@ echo "║                                                          ║"
 echo "║  ⌨️  พิมพ์ menu เพื่อเปิดเมนู Chaiya                    ║"
 echo "╰══════════════════════════════════════════════════════════╯"
 echo ""
-
