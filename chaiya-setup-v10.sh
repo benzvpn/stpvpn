@@ -533,17 +533,49 @@ sleep 2
 ok "WS-Stunnel พร้อม (port $WS_TUNNEL_PORT → Dropbear:$DROPBEAR_PORT1)"
 
 # ── 3x-ui INSTALL ────────────────────────────────────────────
-info "ติดตั้ง 3x-ui..."
+# ล็อกเวอร์ชัน v2.9.4 — เวอร์ชันที่ API compatible กับ ChaiyaPanel
+# ห้ามเปลี่ยนเป็น latest เด็ดขาด เพราะเวอร์ชันใหม่เปลี่ยน session/cookie mechanism
+XUI_LOCKED_VERSION="v2.9.4"
+info "ติดตั้ง 3x-ui ${XUI_LOCKED_VERSION} (locked)..."
 if ! command -v x-ui &>/dev/null; then
   _xui_sh=$(mktemp /tmp/xui-XXXXX.sh)
-  # ใส่ timeout ดาวน์โหลด 30s ป้องกันค้าง
-  curl -Ls --max-time 30 "https://raw.githubusercontent.com/MHSanaei/3x-ui/master/install.sh" \
+  # ดึง install.sh จาก master เสมอ แล้วส่ง locked version เป็น argument
+  # install.sh รองรับ: bash install.sh v2.9.4 — จะดาวน์โหลด release นั้นโดยตรง
+  curl -Ls --max-time 30 \
+    "https://raw.githubusercontent.com/MHSanaei/3x-ui/master/install.sh" \
     -o "$_xui_sh" 2>/dev/null || { warn "ดาวน์โหลด 3x-ui install.sh ล้มเหลว"; rm -f "$_xui_sh"; }
   if [[ -s "$_xui_sh" ]]; then
-    # timeout 300s ป้องกันค้างไม่จบ — printf input ป้องกัน interactive prompt
-    printf "y\n${XUI_PORT}\n\n\n\n" | timeout 300 bash "$_xui_sh" >> /var/log/chaiya-xui-install.log 2>&1 || true
+    # ส่ง version เป็น argument โดยตรง — install.sh รองรับ bash install.sh <version>
+    # ไม่ต้อง pipe interactive input เพราะ argument mode ไม่ถาม
+    printf "y\n${XUI_PORT}\n\n\n\n" | timeout 300 bash "$_xui_sh" "${XUI_LOCKED_VERSION}" >> /var/log/chaiya-xui-install.log 2>&1 || true
   fi
   rm -f "$_xui_sh"
+else
+  # มี x-ui อยู่แล้ว — ตรวจเวอร์ชันและ downgrade ถ้าใหม่เกิน
+  _cur_ver=$(/usr/local/x-ui/x-ui -v 2>/dev/null | head -1 | tr -d '[:space:]' || echo "unknown")
+  [[ "$_cur_ver" != v* ]] && _cur_ver="v${_cur_ver}"
+  info "x-ui เวอร์ชันปัจจุบัน: ${_cur_ver}"
+  if [[ "$_cur_ver" != "$XUI_LOCKED_VERSION" && "$_cur_ver" != "vunknown" ]]; then
+    warn "x-ui เวอร์ชัน ${_cur_ver} ไม่ตรงกับ locked ${XUI_LOCKED_VERSION} — ทำการ downgrade..."
+    systemctl stop x-ui 2>/dev/null || true
+    # ดาวน์โหลด binary โดยตรงจาก release — ไม่ผ่าน install.sh เพื่อหลีกเลี่ยง interactive prompt
+    _arch=$(arch)
+    _xui_tar="/tmp/x-ui-${XUI_LOCKED_VERSION}.tar.gz"
+    curl -4 -fLo "$_xui_tar" --max-time 120 \
+      "https://github.com/MHSanaei/3x-ui/releases/download/${XUI_LOCKED_VERSION}/x-ui-linux-${_arch}.tar.gz" \
+      >> /var/log/chaiya-xui-install.log 2>&1
+    if [[ -s "$_xui_tar" ]]; then
+      cd /usr/local
+      tar -xzf "$_xui_tar" 2>/dev/null || true
+      chmod +x /usr/local/x-ui/x-ui /usr/local/x-ui/bin/xray-linux-* 2>/dev/null || true
+      rm -f "$_xui_tar"
+      ok "downgrade x-ui → ${XUI_LOCKED_VERSION} สำเร็จ"
+    else
+      warn "ดาวน์โหลด binary ล้มเหลว"
+      rm -f "$_xui_tar"
+    fi
+    systemctl start x-ui 2>/dev/null || true
+  fi
 fi
 
 systemctl stop x-ui 2>/dev/null || true
