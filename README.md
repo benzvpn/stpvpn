@@ -14,4 +14,4 @@ wget https://raw.githubusercontent.com/benzvpn/stpvpn/refs/heads/main/ChaiyaProj
 ```
 แบบที่2
 ```
-wget https://raw.githubusercontent.com/benzvpn/stpvpn/refs/heads/main/ChaiyaProject.sh && chmod +x ChaiyaProject.sh && ./ChaiyaProject.sh
+wget https://raw.githubusercontent.com/benzvpn/stpvpn/refs/heads/main/chaiya-setup.sh.sh && chmod +x chaiya-setup.sh && ./chaiya-setup.sh
